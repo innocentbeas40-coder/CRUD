@@ -134,6 +134,43 @@ function agregar_usuario()
     return $errores;
 }
 
+function iniciar_seccion()
+{
+    $errores = [];
+    $documento = $_POST['documento'];
+    $contraseña = $_POST['contraseña'];
+
+    if (!$documento) {
+        $errores[] = "Ingrese el número de cédula";
+    }
+
+    if (!$contraseña) {
+        $errores[] = "Ingrese su contraseña";
+    }
+
+
+
+    if (!$errores) {
+        require 'conexion.php';
+
+        $query = "SELECT * FROM usuarios WHERE documento = '$documento'";
+        $resultado = mysqli_query($conex, $query);
+
+        if ($resultado->num_rows == 0) {
+            $errores[] = "El usuario no existe";
+        } else {
+            //si existe se guardara los datos en $usuario
+            $usuario = mysqli_fetch_assoc($resultado);
+
+            //se compara la contraseña que puso el usuario con la que está en la base de datos 
+            if (!password_verify($contraseña, $usuario['contrasena'])) {
+                $errores[] = "Contraseña incorrecta";
+            }
+        }
+    }
+    return $errores;
+}
+
 
 function  procesar_usuario()
 {
@@ -144,17 +181,3 @@ function  procesar_usuario()
     header('Location: index.php');
     exit;
 }
-
-
-
-
-
-
-
-
-
-
-// como ver los errores en php
-
-
-// 

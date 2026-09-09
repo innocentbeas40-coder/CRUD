@@ -2,28 +2,19 @@
 
 require 'db/funciones.php';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    $errores = iniciar_seccion();
 
+    if (!$errores) {
+        header('Location: AgregarUsuario.php');
+        exit;
+    }
 
-
-
-if (isset($_POST['guardar'])) {
-    $errores = agregar_usuario();
-
-    if ($errores) {
-        foreach ($errores as $error) {
-            echo "<p>" . $error . "</p>";
-        }
+    foreach ($errores as $error) {
+        echo $error . "<br>";
     }
 }
-
-
-
-$usuarios = obtener_usuarios();
-
-// var_dump(mysqli_fetch_all($usuarios));
-
-
 
 ?>
 
@@ -33,84 +24,44 @@ $usuarios = obtener_usuarios();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+
     <title>Ejemplo de conexión DB</title>
 </head>
 
 <body>
-    <h1>conexión con MySqli</h1>
-
-    <table border="2">
-        <thead>
-            <tr>
-                <th colspan="3">Nombres</th>
-                <th colspan="3">Segundo Nombre</th>
-                <th colspan="3">Documento</th>
-                <th colspan="3">contraseña</th>
-                <th colspan="3">email</th>
-                <th colspan="3">teléfono</th>
-            </tr>
-        </thead>
 
 
-        <tbody>
-            <?php
+    <form  method="post">
+        <fieldset>
+            <h3>inicia sección </h3>
 
-            while ($user = mysqli_fetch_assoc($usuarios)) {
-            ?>
+            <div class="contenedor_campos">
 
-                <tr>
-                    <td colspan="3"><?php echo $user['nombre'] ?></td>
-                    <td colspan="3"><?php echo $user['segundo_nombre'] ?></td>
-                    <td colspan="3"><?php echo $user['documento'] ?></td>
-                    <td colspan="3"><?php echo $user['contrasena'] ?></td>
-                    <td colspan="3"><?php echo $user['email'] ?></td>
-                    <td colspan="3"><?php echo $user['telefono'] ?></td>
+                <div class="campos">
+                    <input type="string" name="documento" placeholder="Documento">
+                </div>
 
-                </tr>
+                <div class="campos">
+                    <input type="password" name="contraseña" placeholder="Contraseña">
+                </div>
 
-            <?php
-            }
+            </div>
 
-            ?>
+            <div class=" contenedor_boton">
+                <input class="boton" type="submit" value="enviar" />
+            </div>
 
-            <table>
+        </fieldset>
 
-                <tr>
-                    <td>
-                        <form method="post">
-
-                            <label>Nombre</label>
-                            <input type="text" name="nombre">
-
-                            <label>segundo Nombre</label>
-                            <input type="text" name="segundo_nombre">
-
-                            <label>Documento</label>
-                            <input type="string" name="documento">
-
-                            <label>Contraseña</label>
-                            <input type="password" name="contraseña">
-
-                            <label>Confirmar contraseña</label>
-                            <input type="input" name="c_contraseña">
-
-                            <label>Email</label>
-                            <input type="string" name="email">
-
-                            <label>Teléfono</label>
-                            <input type="string" name="telefono">
-
-                            <button type="submit" name="guardar">guardar</button>
-
-                        </form>
+        </div>
 
 
-                    </td>
-                </tr>
-            </table>
 
-        </tbody>
-    </table>
+
+
+
+    </form>
 
 </body>
 
