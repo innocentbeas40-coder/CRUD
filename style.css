@@ -54,6 +54,20 @@ fieldset h3 {
     /* text-align: center ; */
 }
 
+.contenedorB .boton{
+    background-color: blue;
+    padding: 8px 8px;
+    font-size: 12px;
+    margin:10px;
+    
+
+}
+
+.contenedorB{
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
 
 .contenedor_boton{
     text-align: center;
@@ -61,6 +75,17 @@ fieldset h3 {
 
 }
 
+
+.contenedor_boton a{
+    padding: 20px 70px;
+
+}
+
+td a.boton{
+    color: white;
+    padding: 3px;
+    font-size: 13px;
+}
 
 
 

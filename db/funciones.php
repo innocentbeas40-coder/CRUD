@@ -1,5 +1,7 @@
 <?php
 
+
+
 require 'conexion.php';
 
 function obtener_usuarios()
@@ -72,24 +74,35 @@ function agregar_usuario()
 
     if (isset($_POST['guardar'])) {
         // echo "agregando usuario";
-
-        $nombre = $_POST['nombre'];
-        $segundoNombre = $_POST['segundo_nombre'];
-        $cedula = $_POST['documento'];
-        $contraseña = $_POST['contraseña'];
-        $c_contraseña = $_POST['c_contraseña'];
-        $email = $_POST['email'];
-        $telefono = $_POST['telefono'];
+        $cedula = mysqli_real_escape_string($conex, $_POST['cedula']);
+        $name = mysqli_real_escape_string($conex, $_POST['name']);
+        $last_name = mysqli_real_escape_string($conex, $_POST['last_name']);
+        $email = mysqli_real_escape_string($conex, filter_var($_POST['email']));
+        $password = mysqli_real_escape_string($conex, $_POST['password']);
+        $c_password = mysqli_real_escape_string($conex, $_POST['c_password']);
+        $phone = mysqli_real_escape_string($conex, $_POST['phone']);
     }
 
     if (!$cedula) {
         $errores[] = "Ingrese el número de cédula";
     }
+    if (!ctype_digit($cedula)) {
+        $errores[] = "El documento solo debe contener números";
+    }
+    if (strlen($cedula) < 7 || strlen($cedula) > 10) {
+        $errores[] = "El documento debe tener entre 7 y 10 dígitos";
+    }
     if (!$nombre) {
         $errores[] = "Ingrese nombre";
     }
+    if (!ctype_alpha(str_replace(' ', '', $nombre))) {
+        $errores[] = "El nombre solo debe contener letras";
+    }
     if (!$segundoNombre) {
         $errores[] = "Ingrese segundo nombre";
+    }
+    if (!ctype_alpha(str_replace(' ', '', $segundoNombre))) {
+        $errores[] = "El segundo nombre solo debe contener letras";
     }
     if (!$email) {
         $errores[] = "Ingrese email";
@@ -107,6 +120,12 @@ function agregar_usuario()
 
     if (!$telefono) {
         $errores[] = "Ingrese teléfono";
+    }
+    if (strlen($telefono) != 10) {
+        $errores[] = "El teléfono debe tener 10 dígitos";
+    }
+    if (!ctype_digit($telefono)) {
+        $errores[] = "El numero de teléfono solo debe contener números";
     }
 
     $query = "SELECT * FROM usuarios WHERE documento = '"  . $cedula . "';";
@@ -165,6 +184,8 @@ function iniciar_seccion()
             //se compara la contraseña que puso el usuario con la que está en la base de datos 
             if (!password_verify($contraseña, $usuario['contrasena'])) {
                 $errores[] = "Contraseña incorrecta";
+            } else {
+                $_SESSION['usuario'] = $usuario;
             }
         }
     }
@@ -181,3 +202,7 @@ function  procesar_usuario()
     header('Location: index.php');
     exit;
 }
+
+
+//
+// $_SESSION ['cedula'] = $userDB

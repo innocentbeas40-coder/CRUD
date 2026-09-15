@@ -1,4 +1,6 @@
 <?php
+session_start();
+// require 'db/proteger.php';
 
 require 'db/funciones.php';
 
@@ -7,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errores = iniciar_seccion();
 
     if (!$errores) {
-        header('Location: AgregarUsuario.php');
+        header('Location: form/FormUsuarios.php');
         exit;
     }
 
