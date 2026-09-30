@@ -1,5 +1,7 @@
 <?php
 
+require '../db/proteger.php';
+
 session_start();
 
 session_unset();

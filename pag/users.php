@@ -1,22 +1,12 @@
 <?php
 
 // require '../db/proteger.php';
+header("Cache-Control: no-store");
+require '../includes/obtener_usuario.php';
 
-require '../db/funciones.php';
+$usuarios = obtener_usuarios();
 
-if (isset($_POST['guardar'])) {
-    $errores = agregar_usuario();
-
-    if ($errores) {
-        foreach ($errores as $error) {
-            echo "<p>" . $error . "</p>";
-        }
-    }
-}
-
-
-
-
+$message = isset($_GET['mensaje']) ? 1 : 2;
 ?>
 
 <!DOCTYPE html>
@@ -25,66 +15,67 @@ if (isset($_POST['guardar'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../build/css/app.css" />
     <title>Document</title>
 </head>
 
 <body>
-    
-    <form method="post">
-        <fieldset>
-            <h3>crea un usuario</h3>
+    <h1>conexión con MySqli</h1>
 
-            <div class="contenedor_campos">
-
-                <div class="campos">
-                    <input type="text" name="nombre" placeholder="Nombre">
-                </div>
-
-                <div class="campos">
-                    <input type="text" name="segundo_nombre" placeholder="Segundo Nombre">
-                </div>
-
-                <div class="campos">
-                    <input type="string" name="documento" placeholder="Documento">
-                </div>
-
-                <div class="campos">
-                    <input type="string" name="email" placeholder="Email">
-                </div>
-
-                <div class="campos">
-                    <input type="string" name="telefono" placeholder="Teléfono">
-                </div>
-
-                <div class="campos">
-                    <input type="password" name="contraseña" placeholder="Contraseña">
-                </div>
-
-                <div class="campos">
-                    <input type="input" name="c_contraseña" placeholder="Confirma tu Contraseña">
-                </div>
-
-            </div>
-
-            <div class=" contenedor_boton">
-                <input class="boton" type="submit" name="guardar" />
-            </div>
-
-        </fieldset>
-
-        <div class=" contenedor_boton">
-                <a class="boton" href="../form/FormUsuarios.php">volver atrás</a>
-            </div>
-
+    <table border="2">
+        <div class="contenedorB">
+            <a class="boton" href="../form/FormUsuarios.php">Crear Usuario</a>
         </div>
+        <thead>
+
+
+            <tr>
+                <th colspan="3">Nombres</th>
+                <th colspan="3">Segundo Nombre</th>
+                <th colspan="3">Documento</th>
+
+                <th colspan="3">email</th>
+                <th colspan="3">teléfono</th>
+                <th colspan="3">opciones</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            <?php
+
+            while ($user = mysqli_fetch_assoc($usuarios)) {
+
+            ?>
+
+                <tr>
+
+                    <td colspan="3"><?php echo $user['nombre'] ?></td>
+                    <td colspan="3"><?php echo $user['segundo_nombre'] ?></td>
+                    <td colspan="3"><?php echo $user['documento'] ?></td>
+                    <td colspan="3"><?php echo $user['email'] ?></td>
+                    <td colspan="3"><?php echo $user['telefono'] ?></td>
+                    <td><a class="boton" href="../includes/users/update.php?id=<?php echo $user['id']; ?>">actualizar</a></td>
+                    <td><a class="boton" href="../includes/users/delete.php?id=<?php echo $user['id']; ?>" onclick="return confirm('¿Está seguro de que desea eliminar este usuario?');">eliminar</a></td>
 
 
 
+                </tr>
+
+            <?php
+            }
+
+            ?>
 
 
+        </tbody>
+    </table>
 
-    </form>
+    <div class="contenedorB">
+
+        <a class="boton" href="../pag/CerrarSesion.php">Cerrar Sesión</a>
+    </div>
+
 </body>
 
 </html>

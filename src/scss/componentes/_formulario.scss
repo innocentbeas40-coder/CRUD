@@ -1,0 +1,29 @@
+form {
+    margin-top: 9rem;
+}
+
+
+fieldset h3 {
+    text-align: center;
+    text-transform: uppercase;
+
+}
+
+.campos input {
+    width: 100%;
+    border-radius: .5rem;
+    color: black;
+    padding: .9rem;
+}
+
+
+
+.contenedor_campos {
+    display: grid;
+    /* grid-template-columns: repeat(2, 1fr); */
+    gap: 1.5rem;
+
+
+}
+
+
