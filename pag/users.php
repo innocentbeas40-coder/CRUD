@@ -1,12 +1,25 @@
 <?php
 
-// require '../db/proteger.php';
-header("Cache-Control: no-store");
+require '../db/proteger.php';
+
 require '../includes/obtener_usuario.php';
+
+if (isset($_GET['mensaje'])) {
+
+    if ($_GET['mensaje'] == 3) {
+
+        echo "<script>alert('Usuario eliminado correctamente');</script>";
+    } else {
+
+        echo "<script>alert('No se pudo eliminar el usuario');</script>";
+    }
+
+    echo "<script>window.history.replaceState({}, document.title, 'users.php');</script>";
+}
 
 $usuarios = obtener_usuarios();
 
-$message = isset($_GET['mensaje']) ? 1 : 2;
+
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +69,7 @@ $message = isset($_GET['mensaje']) ? 1 : 2;
                     <td colspan="3"><?php echo $user['email'] ?></td>
                     <td colspan="3"><?php echo $user['telefono'] ?></td>
                     <td><a class="boton" href="../includes/users/update.php?id=<?php echo $user['id']; ?>">actualizar</a></td>
-                    <td><a class="boton" href="../includes/users/delete.php?id=<?php echo $user['id']; ?>" onclick="return confirm('¿Está seguro de que desea eliminar este usuario?');">eliminar</a></td>
+                    <td><a class="boton" href="../includes/eliminar_usuario.php?id=<?php echo $user['id']; ?>" onclick="return confirm('¿Está seguro de que desea eliminar este usuario?');">eliminar</a></td>
 
 
 
