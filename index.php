@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require '../includes/iniciar_seccion.php';
+require 'includes/iniciar_seccion.php';
 
 $errores = [];
 
